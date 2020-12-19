@@ -7,26 +7,64 @@ use App\Services\Interfaces\IContactService;
 
 class ContactController extends Controller
 {
-    
-    public function save(Request $request, IContactService $contactService)
-    {
 
-    	
-    	$data = $contactService->save($request->all());
+    public function updateEmpty(Request $request, IContactService $contactService) {
+        //validate request
+        $rules = $this->getRules();
+        $customMessages = $this->getCustomMessages();
+        $data = $request->validate($rules, $customMessages);
 
-    	if($data == 0) {
-    		$val = '{"status": 200,"message": "No Records Saved."}';
-    	} else {
-    		$val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
-    	}
+        $data = $contactService->updateEmpty($request->all());
 
-    	$resp = json_decode($val);
+        if($data == 0) {
+            $val = '{"status": 200,"message": "No Records Saved."}';
+        } else {
+            $val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
+        }
 
-    	return response()->json($resp);
-    	// return response()->json($request);
-    	// return "test";
+        $resp = json_decode($val);
+        return response()->json($resp);
+
     }
 
+    public function updateValue(Request $request, IContactService $contactService) {
+        //validate request
+        $rules = $this->getRules();
+        $customMessages = $this->getCustomMessages();
+        $data = $request->validate($rules, $customMessages);
+
+        $data = $contactService->updateValue($request->all());
+
+        if($data == 0) {
+            $val = '{"status": 200,"message": "No Records Saved."}';
+        } else {
+            $val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
+        }
+
+        $resp = json_decode($val);
+        return response()->json($resp);
+
+    }
+
+
+    public function dontUpdate(Request $request, IContactService $contactService) {
+        //validate request
+        $rules = $this->getRules();
+        $customMessages = $this->getCustomMessages();
+        $data = $request->validate($rules, $customMessages);
+
+        $data = $contactService->dontUpdate($request->all());
+
+        if($data == 0) {
+            $val = '{"status": 200,"message": "No Records Saved."}';
+        } else {
+            $val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
+        }
+
+        $resp = json_decode($val);
+        return response()->json($resp);
+
+    }
 
     public function getColumns(IContactService $contactService)
     {
@@ -37,4 +75,42 @@ class ContactController extends Controller
 
     	return $columns;
     }
+
+    private function getRules() {
+        return [
+            'newContact' => 'required',
+            'newContact.*.team_id' => 'required|numeric',
+            'newContact.*.phone' => 'required',
+            'newContact.*.sticky_phone_number_id' => 'numeric'
+            
+        ];
+    }
+
+    private function getCustomMessages() {
+        return [
+            'newContact.required' => 'Data is required.',
+            'newContact.*.team_id.required' => 'The team_id field is required.',
+            'newContact.*.team_id.numeric' => 'The team_id field must be a number.',
+            'newContact.*.phone.required' => 'The phone field is required.',
+            'newContact.*.sticky_phone_number_id.numeric' => 'The sticky_phone_number_id field must be a number.'
+        ];
+    }
+
+        // public function save(Request $request, IContactService $contactService)
+    // {
+        
+    //  $data = $contactService->save($request->all());
+
+    //  if($data == 0) {
+    //      $val = '{"status": 200,"message": "No Records Saved."}';
+    //  } else {
+    //      $val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
+    //  }
+
+    //  $resp = json_decode($val);
+
+    //  return response()->json($resp);
+    //  // return response()->json($request);
+    //  // return "test";
+    // }
 }

@@ -5,7 +5,9 @@ namespace App\Services\Interfaces;
 interface IContactService
 {
 
-    public function save(array $req);
+    public function updateEmpty(array $req);
+    public function updateValue(array $req);
+    public function dontUpdate(array $req);
 
     public function getColumns();
 }

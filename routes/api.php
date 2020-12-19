@@ -20,7 +20,9 @@ use App\Http\Controllers\ContactController;
 // });
 
 Route::prefix('/v1')->group(function() {
-	Route::post('contact/save', [ContactController::class, 'save'])->name('save');
-	Route::get('contact/columns', [ContactController::class, 'getColumns'])->name('getColumns');
+	Route::post('contact/save/update-empty', [ContactController::class, 'updateEmpty'])->name('update-empty');
+	Route::post('contact/save/update-value', [ContactController::class, 'updateValue'])->name('update-value');
+	Route::post('contact/save/dont-update', [ContactController::class, 'dontUpdate'])->name('dont-update');
+	Route::get('contact/columns', [ContactController::class, 'getColumns'])->name('get-columns');
 });
 

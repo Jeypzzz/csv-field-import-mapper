@@ -33,7 +33,7 @@ const StepFour = ({ newContact, handleBack }) => {
     setLoading(true);
     //JSON newContact
     if (value === "update_empty") {
-      apiCall(0);
+      apiCall("update-empty");
       //Update them with the data in the spreadsheet, but only for fields that are empty
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
@@ -41,7 +41,7 @@ const StepFour = ({ newContact, handleBack }) => {
       //   setImportError(res.message);
       // }
     } else if (value === "update_value") {
-      apiCall(1);
+      apiCall("update-value");
       //Update them with the data in the spreadsheet, including fields that already have a value.
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
@@ -49,7 +49,7 @@ const StepFour = ({ newContact, handleBack }) => {
       //   setImportError(res.message);
       // }
     } else if (value === "dont_update") {
-      apiCall(2);
+      apiCall("dont-update");
       //Don't modify them.
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
@@ -65,24 +65,24 @@ const StepFour = ({ newContact, handleBack }) => {
   };
 
   const apiCall = (type) => {
+    console.log(newContact);
     setLoading(true);
     axios({
       method: 'post',
-      url: '/api/v1/contact/save',
-      data: {
-        data: newContact,
-        type: type
-      }
+      url: '/api/v1/contact/save/' + type,
+      data: {newContact}
     })
     .then((response) => {
+      console.log(response);
         if (response.status === 200) {
         setImportSuccess(response.data.message);
         } else {
           setImportError("Something went wrong...");
         }
         setLoading(false);
-    }, (error) => {
-      setImportError("Something went wrong...");
+    })
+    .catch((error) => {
+      setImportError(error.response.data.message);
       setLoading(false);
     });
   };

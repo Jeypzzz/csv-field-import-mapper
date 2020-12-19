@@ -57074,21 +57074,21 @@ var StepFour = function StepFour(_ref) {
     setLoading(true); //JSON newContact
 
     if (value === "update_empty") {
-      apiCall(0); //Update them with the data in the spreadsheet, but only for fields that are empty
+      apiCall("update-empty"); //Update them with the data in the spreadsheet, but only for fields that are empty
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
       // } else {
       //   setImportError(res.message);
       // }
     } else if (value === "update_value") {
-      apiCall(1); //Update them with the data in the spreadsheet, including fields that already have a value.
+      apiCall("update-value"); //Update them with the data in the spreadsheet, including fields that already have a value.
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
       // } else {
       //   setImportError(res.message);
       // }
     } else if (value === "dont_update") {
-      apiCall(2); //Don't modify them.
+      apiCall("dont-update"); //Don't modify them.
       // if (res.status === 200) {
       //   setImportSuccess(res.message);
       // } else {
@@ -57103,15 +57103,17 @@ var StepFour = function StepFour(_ref) {
   };
 
   var apiCall = function apiCall(type) {
+    console.log(newContact);
     setLoading(true);
     axios__WEBPACK_IMPORTED_MODULE_16___default()({
       method: 'post',
-      url: '/api/v1/contact/save',
+      url: '/api/v1/contact/save/' + type,
       data: {
-        data: newContact,
-        type: type
+        newContact: newContact
       }
     }).then(function (response) {
+      console.log(response);
+
       if (response.status === 200) {
         setImportSuccess(response.data.message);
       } else {
@@ -57119,8 +57121,8 @@ var StepFour = function StepFour(_ref) {
       }
 
       setLoading(false);
-    }, function (error) {
-      setImportError("Something went wrong...");
+    })["catch"](function (error) {
+      setImportError(error.response.data.message);
       setLoading(false);
     });
   };
