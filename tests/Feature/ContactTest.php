@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class ContactTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRoot()
     {
         $response = $this->get('/');
