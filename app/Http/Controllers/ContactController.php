@@ -95,22 +95,4 @@ class ContactController extends Controller
             'newContact.*.sticky_phone_number_id.numeric' => 'The sticky_phone_number_id field must be a number.'
         ];
     }
-
-        // public function save(Request $request, IContactService $contactService)
-    // {
-        
-    //  $data = $contactService->save($request->all());
-
-    //  if($data == 0) {
-    //      $val = '{"status": 200,"message": "No Records Saved."}';
-    //  } else {
-    //      $val = '{"status": 200,"message": "'. $data .' Records Successfully Saved."}';
-    //  }
-
-    //  $resp = json_decode($val);
-
-    //  return response()->json($resp);
-    //  // return response()->json($request);
-    //  // return "test";
-    // }
 }
